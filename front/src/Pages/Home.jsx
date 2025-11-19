@@ -1,10 +1,19 @@
-import "./Home.css";   // ← IMPORTANTE
+import { useNavigate } from "react-router-dom";
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 
+import "./Home.css";
 export default function Home() {
+  const navigate = useNavigate();
+
   return (
     <div>
       <header className="header">
         <h1>Tienda Tech</h1>
+        <div className="header-buttons">
+          <button onClick={() => navigate("/MiProfile")}>MiPerfil</button>
+          <button onClick={() => alert("Ordenar productos")}>Ordenar</button>
+          <button onClick={() => navigate("/")}>Salir</button>
+        </div>
       </header>
 
       <main className="home-content">
@@ -42,13 +51,13 @@ export default function Home() {
           <h3>Categorías</h3>
           <div className="category-grid">
             <div className="category-tile"></div>
-            <div class="category-tile"></div>
-            <div class="category-tile striped"></div>
-            <div class="category-tile striped"></div>
+            <div className="category-tile"></div>
+            <div className="category-tile striped"></div>
+            <div className="category-tile striped"></div>
           </div>
         </section>
 
-        {/* FEATURES / ICONOS */}
+        {/* FEATURES */}
         <section className="features">
           <h3>¿Por qué elegirnos?</h3>
           <div className="feature-list">
@@ -68,9 +77,28 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="footer">
-        <p>Tienda Tech © 2025</p>
-      </footer>
+  <footer className="footer">
+  <div className="footer-left">
+    <div className="social-icon">
+      <FaFacebookF /> TiendaTech
+    </div>
+    <div className="social-icon">
+      <FaTwitter /> @TiendaTech
+    </div>
+    <div className="social-icon">
+      <FaInstagram /> @TiendaTech_MX
+    </div>
+    <div className="social-icon">
+      <FaLinkedinIn /> TiendaTech
+    </div>
+  </div>
+
+  <div className="footer-right">
+    <p>Tienda Tech © 2025</p>
+    <p>Contacto: info@tiendatech.com</p>
+  </div>
+</footer>
+
     </div>
   );
 }

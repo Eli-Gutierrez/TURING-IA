@@ -13,8 +13,6 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
 }
-
-/* HEADER */
 .header {
   width: 100%;
   padding: 18px 30px;
@@ -22,11 +20,36 @@ body {
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
   display: flex;
   align-items: center;
+  justify-content: space-between; /* separa título y botones */
 }
-.header * {
-  color: white !important;
+
+/* Solo afectamos el h1 */
+.header h1 {
+  color: white;
   margin: 0;
 }
+
+.header-buttons {
+  display: flex;
+  gap: 12px;
+  margin-right: 36px; /* <-- empuja los botones un poco a la izquierda para que no queden pegados al borde */
+}
+
+.header-buttons button {
+  background: var(--cyan); /* mismo color que btn-buy */
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  color: var(--azul-oscuro); /* mismo color texto que btn-buy */
+}
+
+.header-buttons button:hover {
+  background: var(--azul-brillante); /* efecto hover */
+  color: white;
+}
+
 
 /* HERO */
 .hero {
@@ -35,6 +58,14 @@ body {
   text-align: center;
   padding: 40px 20px;
 }
+.hero h2 {
+  color: white;
+}
+
+.hero p {
+  color: white;
+}
+
 .hero-btn {
   background: var(--cyan);
   border: none;
@@ -133,11 +164,29 @@ body {
   margin: auto;
 }
 
-/* FOOTER */
 .footer {
-  background: var(--azul-oscuro);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--azul-oscuro);
   color: white;
-  text-align: center;
-  padding: 20px;
-  margin-top: 40px;
+  padding: 20px 40px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.footer-left {
+  display: flex;
+  gap: 20px;
+}
+
+.social-icon {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.footer-right {
+  text-align: right;
 }
