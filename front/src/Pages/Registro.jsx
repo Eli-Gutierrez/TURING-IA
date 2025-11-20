@@ -1,4 +1,5 @@
 import { useState } from "react";
+import RegistroClient from "../../api/RegistroClient";
 import "./Registro.css";
 
 export default function RegisterUser() {
@@ -12,6 +13,8 @@ export default function RegisterUser() {
     password: "",
   });
 
+  const [loading, setLoading] = useState(false); // Para deshabilitar el botón mientras carga
+
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -19,10 +22,50 @@ export default function RegisterUser() {
     });
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    console.log("Datos registrados:", form);
-    alert("Usuario registrado (solo frontend, sin backend).");
+
+    // Validación mínima
+    if (!form.usuario || !form.pri_nombre || !form.pri_apellido || !form.password) {
+      alert("Por favor completa los campos obligatorios.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const { data } = await RegistroClient.post("/registrar", form);
+
+// o también
+// RegistroClient.post("", form);
+
+ // Endpoint de registro
+
+      if (data.ok) {
+        alert("Usuario registrado correctamente");
+        // Limpiar formulario
+        setForm({
+          usuario: "",
+          pri_nombre: "",
+          seg_nombre: "",
+          pri_apellido: "",
+          seg_apellido: "",
+          sexo: "",
+          password: "",
+        });
+      } else {
+        alert("Error: " + data.msg);
+      }
+    } catch (error) {
+      if (error.response) {
+        alert("Error: " + (error.response.data.msg || "Error en el backend"));
+      } else {
+        alert("Error de conexión con el servidor.");
+      }
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -30,7 +73,6 @@ export default function RegisterUser() {
       <div className="login-form">
         <h2>REGISTRAR USUARIO</h2>
 
-        {/* USUARIO */}
         <label>Usuario:</label>
         <input
           type="text"
@@ -40,7 +82,6 @@ export default function RegisterUser() {
           placeholder="Ingresa tu usuario"
         />
 
-        {/* PRIMER NOMBRE */}
         <label>Primer nombre:</label>
         <input
           type="text"
@@ -50,7 +91,6 @@ export default function RegisterUser() {
           placeholder="Ingresa tu primer nombre"
         />
 
-        {/* SEGUNDO NOMBRE */}
         <label>Segundo nombre:</label>
         <input
           type="text"
@@ -60,7 +100,6 @@ export default function RegisterUser() {
           placeholder="Ingresa tu segundo nombre"
         />
 
-        {/* PRIMER APELLIDO */}
         <label>Primer apellido:</label>
         <input
           type="text"
@@ -70,7 +109,6 @@ export default function RegisterUser() {
           placeholder="Ingresa tu primer apellido"
         />
 
-        {/* SEGUNDO APELLIDO */}
         <label>Segundo apellido:</label>
         <input
           type="text"
@@ -80,7 +118,6 @@ export default function RegisterUser() {
           placeholder="Ingresa tu segundo apellido"
         />
 
-        {/* SEXO */}
         <label>Sexo:</label>
         <select name="sexo" value={form.sexo} onChange={handleChange}>
           <option value="">Seleccionar...</option>
@@ -89,7 +126,6 @@ export default function RegisterUser() {
           <option value="Otro">Otro</option>
         </select>
 
-        {/* CONTRASEÑA */}
         <label>Contraseña:</label>
         <input
           type="password"
@@ -99,8 +135,12 @@ export default function RegisterUser() {
           placeholder="Ingresa una contraseña"
         />
 
-        <button className="login-btn" onClick={handleRegister}>
-          Registrar
+        <button
+          className="login-btn"
+          onClick={handleRegister}
+          disabled={loading} // Deshabilita mientras registra
+        >
+          {loading ? "Registrando..." : "Registrar"}
         </button>
       </div>
     </div>
