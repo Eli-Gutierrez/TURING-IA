@@ -1,9 +1,30 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
-
+import productosClient from "../../api/productosClient";
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import "./Home.css";
+
 export default function Home() {
   const navigate = useNavigate();
+  const [productos, setProductos] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Cargar productos desde el backend
+  useEffect(() => {
+    const cargarProductos = async () => {
+      try {
+        const response = await productosClient.get("/ordenados");
+        setProductos(response.data);
+      } catch (error) {
+        console.error("Error cargando productos:", error);
+        alert("No se pudieron cargar los productos");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    cargarProductos();
+  }, []);
 
   return (
     <div>
@@ -15,18 +36,20 @@ export default function Home() {
           <button onClick={() => navigate("/")}>Salir</button>
         </div>
       </header>
-{/* INFO INTERMEDIA */}
-<section className="info-section">
-  <div className="info-left">
-    <button className="info-btn">BIENVENIDO</button>
-  </div>
-  <div className="info-right">
-    <p>Texto 1</p>
-    <p>Texto 2</p>
-    <p>Texto 3</p>
-    <p>Texto 4</p>
-  </div>
-</section>
+
+      {/* INFO INTERMEDIA */}
+      <section className="info-section">
+        <div className="info-left">
+          <button className="info-btn">BIENVENIDO</button>
+        </div>
+        <div className="info-right">
+          <p>Accesorios</p>
+          <p>PC's</p>
+          <p>Laptops</p>
+          <p>Proximamente</p>
+        </div>
+      </section>
+
       <main className="home-content">
 
         {/* HERO */}
@@ -45,16 +68,32 @@ export default function Home() {
         {/* PRODUCTOS DESTACADOS */}
         <section className="products-section">
           <h3>Productos destacados</h3>
-          <div className="product-grid">
-            {[1,2,3,4,5,6].map((i) => (
-              <div key={i} className="product-card">
-                <div className="product-img"></div>
-                <h4>Producto {i}</h4>
-                <p>Descripción breve del producto.</p>
-                <button className="btn-buy">Comprar</button>
-              </div>
-            ))}
-          </div>
+
+          {loading ? (
+            <p>Cargando productos...</p>
+          ) : (
+            <div className="product-grid">
+              {productos.map((p, index) => (
+                <div key={index} className="product-card">
+                  <div className="product-img">
+                    {/* Imagen desde la BD */}
+                    <img
+                      src={`http://localhost:3000${p.imagen}`} 
+                      alt={p.nombre}
+                      onError={(e) => {
+                        e.target.src = "/placeholder.png"; // En caso de error
+                      }}
+                    />
+                  </div>
+
+                  <h4>{p.nombre}</h4>
+                  <p>Categoría: {p.categoria}</p>
+                  <p>Precio: ${p.precio}</p>
+                  <button className="btn-buy">Comprar</button>
+                </div>
+              ))}
+            </div>
+          )}
         </section>
 
         {/* CATEGORÍAS */}
@@ -88,28 +127,27 @@ export default function Home() {
         </section>
       </main>
 
-  <footer className="footer">
-  <div className="footer-left">
-    <div className="social-icon">
-      <FaFacebookF /> TiendaTech
-    </div>
-    <div className="social-icon">
-      <FaTwitter /> @TiendaTech
-    </div>
-    <div className="social-icon">
-      <FaInstagram /> @TiendaTech_MX
-    </div>
-    <div className="social-icon">
-      <FaLinkedinIn /> TiendaTech
-    </div>
-  </div>
+      <footer className="footer">
+        <div className="footer-left">
+          <div className="social-icon">
+            <FaFacebookF /> TiendaTech
+          </div>
+          <div className="social-icon">
+            <FaTwitter /> @TiendaTech
+          </div>
+          <div className="social-icon">
+            <FaInstagram /> @TiendaTech_MX
+          </div>
+          <div className="social-icon">
+            <FaLinkedinIn /> TiendaTech
+          </div>
+        </div>
 
-  <div className="footer-right">
-    <p>Tienda Tech © 2025</p>
-    <p>Contacto: info@tiendatech.com</p>
-  </div>
-</footer>
-
+        <div className="footer-right">
+          <p>Tienda Tech © 2025</p>
+          <p>Contacto: info@tiendatech.com</p>
+        </div>
+      </footer>
     </div>
   );
 }

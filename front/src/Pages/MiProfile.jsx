@@ -1,48 +1,50 @@
-// Home.jsx
+import { useEffect, useState } from "react";
+import axiosClient from "../../api/axiosClient";
 import { useNavigate } from "react-router-dom";
 import "./MiProfile.css";
 
-export default function Home() {
+export default function MiProfile() {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const datos = {
-    usuario: "usuario@correo.com",
-    pri_nombre: "Juan",
-    seg_nombre: "Carlos",
-    pri_apellido: "Pérez",
-    seg_apellido: "Gómez",
-    sexo: "Masculino",
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userId = localStorage.getItem("userId");
+      if (!userId) {
+        navigate("/"); // si no hay ID, redirigir al login
+        return;
+      }
 
-  };
+      try {
+        const response = await axiosClient.get(`/perfil/${userId}`);
+        setUser(response.data);
+      } catch (error) {
+        console.error("No se pudo cargar el perfil:", error);
+        alert("No se pudo cargar el perfil");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [navigate]);
+
+  if (loading) return <p>Cargando perfil...</p>;
+  if (!user) return <p>No se encontró el usuario.</p>;
 
   return (
     <div className="login-container">
       <div className="login-form">
         <h2>MI PERFIL</h2>
 
-        <label>Usuario:</label>
-        <input type="text" value={datos.usuario} readOnly />
+       <label>Nombre completo:</label>
+    <input type="text" value={user.Nombre_Completo} readOnly />
 
-        <label>Primer nombre:</label>
-        <input type="text" value={datos.pri_nombre} readOnly />
+    <label>Email:</label>
+    <input type="text" value={user.Email} readOnly />
 
-        <label>Segundo nombre:</label>
-        <input type="text" value={datos.seg_nombre} readOnly />
-
-        <label>Primer apellido:</label>
-        <input type="text" value={datos.pri_apellido} readOnly />
-
-        <label>Segundo apellido:</label>
-        <input type="text" value={datos.seg_apellido} readOnly />
-
-        <label>Sexo:</label>
-        <input type="text" value={datos.sexo} readOnly />
-
-
-        <button 
-          className="login-btn"
-          onClick={() => navigate("/Home")}
-        >
+        <button className="login-btn" onClick={() => navigate("/home")}>
           Volver
         </button>
       </div>

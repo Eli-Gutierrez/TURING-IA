@@ -11,12 +11,13 @@ const axiosClient = axios.create({
 
 // Interceptor opcional para enviar token automáticamente
 axiosClient.interceptors.request.use((config) => {
-  const token = ""; // aquí puedes poner tu token si manejas autenticación
+  const token = localStorage.getItem("token"); // tomar token desde localStorage
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
+
 
 // Interceptor de respuesta opcional para manejo de errores
 axiosClient.interceptors.response.use(

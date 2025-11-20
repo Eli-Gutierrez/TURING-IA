@@ -22,11 +22,16 @@ export default function Login() {
     try {
       const response = await axiosClient.post("/login", form);
 
-      if (response.data.success) {
-        alert("Login exitoso!");
-        // Puedes guardar token o datos del usuario aquí
-        navigate("/home");
-      } else {
+     if (response.data.success) {
+  alert("Login exitoso!");
+  const { token, user } = response.data;
+  // Guardar token y datos del usuario
+  localStorage.setItem("token", token);
+  localStorage.setItem("userId", user.ID_usuario);
+  localStorage.setItem("userName", user.Nombre_Completo);
+  
+  navigate("/Home");
+} else {
         alert("Usuario o contraseña incorrecta");
       }
     } catch (error) {

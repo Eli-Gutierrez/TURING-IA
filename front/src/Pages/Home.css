@@ -142,11 +142,24 @@ body {
   border: 2px solid var(--azul-brillante);
 }
 .product-img {
-  height: 110px;
+  height: 70px; /* más pequeña que antes */
   background: var(--azul-oscuro);
   border-radius: 6px;
   margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
+
+.product-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+
 .btn-buy {
   background: var(--cyan);
   border: none;
