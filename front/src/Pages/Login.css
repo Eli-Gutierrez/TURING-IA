@@ -80,3 +80,20 @@
     margin: 0 15px;
   }
 }
+/* Texto debajo del botón */
+.register-text {
+  text-align: center;
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+/* Link hacia registro */
+.register-link {
+  color: #00D8F2;  /* Cyan intenso */
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+}
