@@ -13,7 +13,6 @@ export default function Home() {
     seg_apellido: "Gómez",
     sexo: "Masculino",
 
-   
   };
 
   return (
