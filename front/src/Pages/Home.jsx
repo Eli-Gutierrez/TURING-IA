@@ -15,7 +15,18 @@ export default function Home() {
           <button onClick={() => navigate("/")}>Salir</button>
         </div>
       </header>
-
+{/* INFO INTERMEDIA */}
+<section className="info-section">
+  <div className="info-left">
+    <button className="info-btn">BIENVENIDO</button>
+  </div>
+  <div className="info-right">
+    <p>Texto 1</p>
+    <p>Texto 2</p>
+    <p>Texto 3</p>
+    <p>Texto 4</p>
+  </div>
+</section>
       <main className="home-content">
 
         {/* HERO */}

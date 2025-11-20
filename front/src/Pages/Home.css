@@ -49,6 +49,43 @@ body {
   background: var(--azul-brillante); /* efecto hover */
   color: white;
 }
+.info-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 20px 40px;
+  margin: 20px 0; /* separa del header y hero */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.info-left {
+  flex: 1;
+}
+
+.info-btn {
+  background: var(--azul-oscuro); /* color fijo */
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.info-right {
+  display: flex;
+  gap: 20px;
+  flex: 2;
+  justify-content: flex-end;
+  flex-wrap: wrap; /* para que no se rompa en pantallas pequeñas */
+}
+
+.info-right p {
+  margin: 0;
+  color: var(--azul-oscuro);
+  font-weight: 500;
+}
 
 
 /* HERO */
